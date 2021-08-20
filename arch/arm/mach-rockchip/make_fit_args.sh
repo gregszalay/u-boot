@@ -30,7 +30,7 @@ function help()
 
 if [ $# -eq 1 ]; then
 	# default
-	TEE_OFFSET=0x08400000
+	TEE_OFFSET=
 else
 	# args
 	while [ $# -gt 0 ]; do
