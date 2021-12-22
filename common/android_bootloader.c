@@ -259,7 +259,9 @@ static int sysmem_alloc_uncomp_kernel(ulong andr_hdr,
 		kaddr -= hdr->page_size;
 		if (sysmem_free((phys_addr_t)kaddr))
 			return -EINVAL;
-
+#ifdef CONFIG_SKIP_RELOCATE_UBOOT
+		sysmem_free(CONFIG_SYS_TEXT_BASE);
+#endif
 		/*
 		 * Use smaller Ratio to get larger estimated uncompress
 		 * kernel size.
@@ -517,6 +519,15 @@ retry_verify:
 			flags,
 			AVB_HASHTREE_ERROR_MODE_RESTART,
 			&slot_data[0]);
+	if (verify_result != AVB_SLOT_VERIFY_RESULT_OK &&
+	    verify_result != AVB_SLOT_VERIFY_RESULT_ERROR_PUBLIC_KEY_REJECTED) {
+		if (retry_no_vbmeta_partition && strcmp(boot_partname, "recovery") == 0) {
+			printf("Verify recovery with vbmeta.\n");
+			flags &= ~AVB_SLOT_VERIFY_FLAGS_NO_VBMETA_PARTITION;
+			retry_no_vbmeta_partition = 0;
+			goto retry_verify;
+		}
+	}
 
 	strcat(verify_state, ANDROID_VERIFY_STATE);
 	switch (verify_result) {
@@ -544,16 +555,6 @@ retry_verify:
 		else
 			strcat(verify_state, "red");
 		break;
-	}
-
-	if (verify_result != AVB_SLOT_VERIFY_RESULT_OK &&
-	    verify_result != AVB_SLOT_VERIFY_RESULT_ERROR_PUBLIC_KEY_REJECTED) {
-		if (retry_no_vbmeta_partition && strcmp(boot_partname, "recovery") == 0) {
-			printf("Verify recovery with vbmeta.\n");
-			flags &= ~AVB_SLOT_VERIFY_FLAGS_NO_VBMETA_PARTITION;
-			retry_no_vbmeta_partition = 0;
-			goto retry_verify;
-		}
 	}
 
 	if (!slot_data[0]) {
@@ -1080,10 +1081,14 @@ int android_bootloader_boot_flow(struct blk_desc *dev_desc,
 		printf("Close optee client failed!\n");
 #endif
 
+#ifdef CONFIG_AMP
+	return android_bootloader_boot_kernel(load_address);
+#else
 	android_bootloader_boot_kernel(load_address);
 
 	/* TODO: If the kernel doesn't boot mark the selected slot as bad. */
 	return -1;
+#endif
 }
 
 int android_avb_boot_flow(unsigned long kernel_address)
