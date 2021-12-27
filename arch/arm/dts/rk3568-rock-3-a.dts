@@ -45,6 +45,17 @@
 		vin-supply = <&dc_12v>;
 	};
 
+	led_sys: led-sys {
+		u-boot,dm-pre-reloc;
+		compatible = "regulator-fixed";
+		regulator-name = "led_sys";
+		enable-active-high;
+		gpio = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>; // Turn on blue led
+		regulator-boot-on;
+		regulator-always-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
+
 	vcc3v3_pcie: gpio-regulator {
 		u-boot,dm-pre-reloc;
 		compatible = "regulator-fixed";
