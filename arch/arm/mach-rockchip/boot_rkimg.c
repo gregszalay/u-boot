@@ -80,7 +80,6 @@ static void boot_devtype_init(void)
 			devnum = "0";
 			env_set("devtype", devtype);
 			env_set("devnum", devnum);
-			goto finish;
 		}
 	} else {
 		printf("Set nvme as boot storage fail ret=%d\n", ret);
