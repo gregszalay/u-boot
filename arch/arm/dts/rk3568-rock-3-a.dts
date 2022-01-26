@@ -42,7 +42,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
-		vin-supply = <&dc_12v>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	led_sys: led-sys {
@@ -65,7 +65,7 @@
 		enable-active-high;
 		gpio = <&gpio0 RK_PD4 GPIO_ACTIVE_HIGH>;
 		startup-delay-us = <5000>;
-		vin-supply = <&dc_12v>;
+		vin-supply = <&vcc5v0_sys>;
 	};
 
 	adc-keys {
@@ -156,6 +156,8 @@
 		//fb-inner-reg-idxs = <2>;
 		/* 1: rst regs (default in codes), 0: rst the pmic */
 		pmic-reset-func = <0>;
+		/* not save the PMIC_POWER_EN register in uboot */
+		not-save-power-en = <1>;
 
 		vcc1-supply = <&vcc3v3_sys>;
 		vcc2-supply = <&vcc3v3_sys>;
@@ -215,6 +217,7 @@
 				regulator-initial-mode = <0x2>;
 				regulator-name = "vdd_logic";
 				regulator-state-mem {
+					u-boot,dm-pre-reloc;
 					regulator-on-in-suspend;
 				};
 			};
@@ -317,12 +320,14 @@
 			};
 
 			vccio_sd: LDO_REG5 {
+				u-boot,dm-pre-reloc;
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-name = "vccio_sd";
 				regulator-state-mem {
+					u-boot,dm-pre-reloc;
 					regulator-off-in-suspend;
 				};
 			};
@@ -395,10 +400,12 @@
 			};
 
 			vcc_3v3: SWITCH_REG1 {
+				u-boot,dm-pre-reloc;
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-name = "vcc_3v3";
 				regulator-state-mem {
+					u-boot,dm-pre-reloc;
 					regulator-off-in-suspend;
 				};
 			};
