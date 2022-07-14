@@ -10,8 +10,8 @@
 #include <dt-bindings/input/input.h>
 
 / {
-	model = "Radxa ROCK 3 Model A";
-	compatible = "radxa,rock-3-a", "rockchip,rk3568";
+	model = "Radxa ROCK3 Model B";
+	compatible = "radxa,rock3b", "rockchip,rk3568";
 
 	dc_12v: dc-12v {
 		u-boot,dm-pre-reloc;
@@ -42,7 +42,7 @@
 		regulator-boot-on;
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
-		vin-supply = <&vcc5v0_sys>;
+		vin-supply = <&dc_12v>;
 	};
 
 	led_sys: led-sys {
@@ -65,7 +65,7 @@
 		enable-active-high;
 		gpio = <&gpio0 RK_PD4 GPIO_ACTIVE_HIGH>;
 		startup-delay-us = <5000>;
-		vin-supply = <&vcc5v0_sys>;
+		vin-supply = <&dc_12v>;
 	};
 
 	adc-keys {
@@ -217,7 +217,6 @@
 				regulator-initial-mode = <0x2>;
 				regulator-name = "vdd_logic";
 				regulator-state-mem {
-					u-boot,dm-pre-reloc;
 					regulator-on-in-suspend;
 				};
 			};
@@ -320,14 +319,12 @@
 			};
 
 			vccio_sd: LDO_REG5 {
-				u-boot,dm-pre-reloc;
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-name = "vccio_sd";
 				regulator-state-mem {
-					u-boot,dm-pre-reloc;
 					regulator-off-in-suspend;
 				};
 			};
@@ -400,12 +397,10 @@
 			};
 
 			vcc_3v3: SWITCH_REG1 {
-				u-boot,dm-pre-reloc;
 				regulator-always-on;
 				regulator-boot-on;
 				regulator-name = "vcc_3v3";
 				regulator-state-mem {
-					u-boot,dm-pre-reloc;
 					regulator-off-in-suspend;
 				};
 			};
