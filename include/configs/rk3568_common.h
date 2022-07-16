@@ -74,6 +74,7 @@
 #define ENV_MEM_LAYOUT_SETTINGS \
 	"scriptaddr=0x00c00000\0" \
 	"pxefile_addr_r=0x00e00000\0" \
+	"fdtoverlay_addr_r=0x0a000000\0" \
 	"fdt_addr_r=0x0a100000\0" \
 	"kernel_addr_no_low_bl32_r=0x00280000\0" \
 	"kernel_addr_r=0x00a80000\0" \
