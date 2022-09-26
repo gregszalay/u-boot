@@ -11,4 +11,15 @@
 / {
 	model = "Radxa E25";
 	compatible = "radxa,e25", "rockchip,rk3568";
+
+	led_sys: led-sys {
+		u-boot,dm-pre-reloc;
+		compatible = "regulator-fixed";
+		regulator-name = "led_sys";
+		enable-active-high;
+		gpio = <&gpio0 RK_PC1 GPIO_ACTIVE_HIGH>;
+		regulator-boot-on;
+		regulator-always-on;
+		vin-supply = <&vcc3v3_sys>;
+	};
 };
