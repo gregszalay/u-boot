@@ -11,7 +11,7 @@
 
 / {
 	model = "Radxa ROCK3 Model C";
-	compatible = "radxa,rock3c", "rockchip,rk3568";
+	compatible = "radxa,rock3c", "rockchip,rk3566";
 
 	dc_12v: dc-12v {
 		u-boot,dm-pre-reloc;
@@ -83,8 +83,7 @@
 
 &pmu_io_domains {
 	status = "okay";
-	pmuio1-supply = <&vcc3v3_pmu>;
-	pmuio2-supply = <&vcc3v3_pmu>;
+	pmuio2-supply = <&vcca1v8_pmu>;
 	vccio1-supply = <&vccio_acodec>;
 	vccio3-supply = <&vccio_sd>;
 	vccio4-supply = <&vcc_1v8>;
@@ -112,6 +111,7 @@
 		regulator-name = "vdd_cpu";
 		regulator-min-microvolt = <712500>;
 		regulator-max-microvolt = <1390000>;
+		regulator-init-microvolt = <900000>;
 		regulator-ramp-delay = <2300>;
 		fcs,suspend-voltage-selector = <1>;
 		regulator-boot-on;
@@ -425,13 +425,13 @@
 		soc_slppin_gpio: soc_slppin_gpio {
 			u-boot,dm-pre-reloc;
 			rockchip,pins =
-				<0 RK_PA2 RK_FUNC_GPIO &pcfg_output_low>;
+				<0 RK_PA2 RK_FUNC_GPIO &pcfg_output_low_pull_down>;
 		};
 
 		soc_slppin_slp: soc_slppin_slp {
 			u-boot,dm-pre-reloc;
 			rockchip,pins =
-				<0 RK_PA2 RK_FUNC_1 &pcfg_pull_none>;
+				<0 RK_PA2 RK_FUNC_1 &pcfg_pull_up>;
 		};
 
 		soc_slppin_rst: soc_slppin_rst {
