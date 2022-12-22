@@ -255,7 +255,7 @@ int key_bind_children(struct udevice *dev, const char *drv_name)
 static int key_post_probe(struct udevice *dev)
 {
 	struct dm_key_uclass_platdata *uc_key;
-	int margin = 30;
+	int margin = 400;
 	int ret;
 
 	uc_key = dev_get_uclass_platdata(dev);
