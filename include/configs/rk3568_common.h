@@ -7,6 +7,9 @@
 #ifndef __CONFIG_RK3568_COMMON_H
 #define __CONFIG_RK3568_COMMON_H
 
+#define CONFIG_BOOTCOUNT_LIMIT
+#define CONFIG_BOOTCOUNT_ENV
+
 #include "rockchip-common.h"
 
 #define CONFIG_SPL_FRAMEWORK
