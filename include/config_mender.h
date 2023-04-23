@@ -38,59 +38,59 @@
 #endif
 
 #ifdef MENDER_UBI
-# ifndef CONFIG_MTDIDS_DEFAULT
-#  define CONFIG_MTDIDS_DEFAULT MENDER_MTDIDS
-# endif
-# ifndef CONFIG_MTDPARTS_DEFAULT
-#  define CONFIG_MTDPARTS_DEFAULT "mtdparts=" ## MENDER_MTDPARTS
-# endif
-# ifndef CONFIG_ENV_UBI_PART
-#  define CONFIG_ENV_UBI_PART          MENDER_MTD_UBI_DEVICE_NAME
-# endif
-# ifndef CONFIG_ENV_UBI_VOLUME
-#  define CONFIG_ENV_UBI_VOLUME        "u-boot-env-1"
-# endif
-# ifndef CONFIG_ENV_UBI_VOLUME_REDUND
-#  define CONFIG_ENV_UBI_VOLUME_REDUND "u-boot-env-2"
-# endif
+#ifndef CONFIG_MTDIDS_DEFAULT
+#define CONFIG_MTDIDS_DEFAULT MENDER_MTDIDS
+#endif
+#ifndef CONFIG_MTDPARTS_DEFAULT
+#define CONFIG_MTDPARTS_DEFAULT "mtdparts=" ## MENDER_MTDPARTS
+#endif
+#ifndef CONFIG_ENV_UBI_PART
+#define CONFIG_ENV_UBI_PART          MENDER_MTD_UBI_DEVICE_NAME
+#endif
+#ifndef CONFIG_ENV_UBI_VOLUME
+#define CONFIG_ENV_UBI_VOLUME        "u-boot-env-1"
+#endif
+#ifndef CONFIG_ENV_UBI_VOLUME_REDUND
+#define CONFIG_ENV_UBI_VOLUME_REDUND "u-boot-env-2"
+#endif
 #else
-# if defined(CONFIG_ENV_OFFSET)
-#  if CONFIG_ENV_OFFSET != MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1
-#   error CONFIG_ENV_OFFSET is not the same as MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1. Either set it to the same value (check for example in the defconfig file), or make sure it is not defined at all. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
-#  endif
-# else
-#  define CONFIG_ENV_OFFSET MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1
-# endif
-# if defined(CONFIG_ENV_OFFSET_REDUND)
-#  if CONFIG_ENV_OFFSET_REDUND != MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2
-#   error CONFIG_ENV_OFFSET_REDUND is not the same as MENDER_ENV_OFFSET_REDUND. Either set it to the same value (check for example in the defconfig file), or make sure it is not defined at all. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
-#  endif
-# else
-#  define CONFIG_ENV_OFFSET_REDUND MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2
-# endif
-# ifdef CONFIG_SYS_MMC_ENV_DEV
-#  if CONFIG_SYS_MMC_ENV_DEV != MENDER_UBOOT_STORAGE_DEVICE
-#   error CONFIG_SYS_MMC_ENV_DEV is not the same as MENDER_UBOOT_STORAGE_DEVICE. Either set it to the same value (check for example in the defconfig file), or make sure it is not defined at all. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
-#  endif
-# else
-#  define CONFIG_SYS_MMC_ENV_DEV   MENDER_UBOOT_STORAGE_DEVICE
-# endif
-# ifdef CONFIG_SYS_MMC_ENV_PART
-#  if CONFIG_SYS_MMC_ENV_PART != 0
-#   error CONFIG_SYS_MMC_ENV_PART need to be set to 0. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
-#  endif
-# else
+#if defined(CONFIG_ENV_OFFSET)
+#if CONFIG_ENV_OFFSET != MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1
+#error CONFIG_ENV_OFFSET is not the same as MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1. Either set it to the same value (check for example in the defconfig file), or make sure it is not defined at all. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
+#endif
+#else
+#define CONFIG_ENV_OFFSET MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_1
+#endif
+#if defined(CONFIG_ENV_OFFSET_REDUND)
+#if CONFIG_ENV_OFFSET_REDUND != MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2
+#error CONFIG_ENV_OFFSET_REDUND is not the same as MENDER_ENV_OFFSET_REDUND. Either set it to the same value (check for example in the defconfig file), or make sure it is not defined at all. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
+#endif
+#else
+#define CONFIG_ENV_OFFSET_REDUND MENDER_UBOOT_ENV_STORAGE_DEVICE_OFFSET_2
+#endif
+#ifdef CONFIG_SYS_MMC_ENV_DEV
+#if CONFIG_SYS_MMC_ENV_DEV != MENDER_UBOOT_STORAGE_DEVICE
+#error CONFIG_SYS_MMC_ENV_DEV is not the same as MENDER_UBOOT_STORAGE_DEVICE. Either set it to the same value (check for example in the defconfig file), or make sure it is not defined at all. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
+#endif
+#else
+#define CONFIG_SYS_MMC_ENV_DEV   MENDER_UBOOT_STORAGE_DEVICE
+#endif
+#ifdef CONFIG_SYS_MMC_ENV_PART
+#if CONFIG_SYS_MMC_ENV_PART != 0
+#error CONFIG_SYS_MMC_ENV_PART need to be set to 0. Make sure that: 1) All the instructions at docs.mender.io/devices/integrating-with-u-boot have been followed. 2) All required layers are included in bblayers.conf, including any board specific layers such as meta-mender-<board>
+#endif
+#else
    /* Use MMC partition zero to select whole user area of memory card. */
-#  define CONFIG_SYS_MMC_ENV_PART  0
-# endif
+#define CONFIG_SYS_MMC_ENV_PART  0
+#endif
 #endif
 
 #ifdef CONFIG_ENV_SIZE
-# if MENDER_BOOTENV_SIZE != CONFIG_ENV_SIZE
-#  error 'CONFIG_ENV_SIZE' define must be equal to bitbake variable 'BOOTENV_SIZE' set in U-Boot build recipe.
-# endif
+#if MENDER_BOOTENV_SIZE != CONFIG_ENV_SIZE
+#error 'CONFIG_ENV_SIZE' define must be equal to bitbake variable 'BOOTENV_SIZE' set in U-Boot build recipe.
+#endif
 #else
-# define CONFIG_ENV_SIZE MENDER_BOOTENV_SIZE
+#define CONFIG_ENV_SIZE MENDER_BOOTENV_SIZE
 #endif
 
 #endif /* !MENDER_AUTO_PROBING */
