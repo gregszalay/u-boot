@@ -475,13 +475,13 @@ config ENV_OFFSET
 	hex "Environment offset"
 	depends on !ENV_IS_IN_UBI
 	depends on !ENV_IS_NOWHERE
-	default 0x800000
+	default 0x3f8000
 	help
 	  Offset from the start of the device (or partition)
 
 config ENV_SIZE
 	hex "Environment size"
-	default 0x8000
+	default 0x4000
 	help
 	  Size of the environment storage area
 
