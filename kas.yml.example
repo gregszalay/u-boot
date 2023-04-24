@@ -1,0 +1,92 @@
+header:
+  version: 10
+
+machine: radxa-cm3-io-rk3566
+
+target: radxa-console-image
+#core-image-minimal
+#u-boot
+#core-image-base
+
+repos:
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    refspec: "kirkstone"
+    path: "source/poky"
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: http://git.openembedded.org/meta-openembedded
+    refspec: "kirkstone"
+    path: "source/meta-openembedded"
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-python:
+      meta-multimedia:
+      meta-gnome:
+      meta-xfce:
+
+  meta-python2:
+    url: https://git.openembedded.org/meta-python2
+    refspec: "kirkstone"
+    path: "source/meta-python2"
+    layers:
+      .:
+
+  meta-radxa:
+    path: "source/meta-radxa"
+    layers:
+      .:
+      
+  meta-mender:
+    url: https://github.com/mendersoftware/meta-mender.git
+    refspec: "kirkstone"
+    path: "source/meta-mender"
+    layers:
+      meta-mender-core:
+
+bblayers_conf_header:
+  standard: |
+    POKY_BBLAYERS_CONF_VERSION = "1"
+    BBPATH = "${TOPDIR}"
+    BBFILES ?= ""
+
+local_conf_header:
+  enable_systemd: |
+    DISTRO_FEATURES:append = " pam systemd x11"
+    VIRTUAL-RUNTIME_init_manager = "systemd"
+    DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+    VIRTUAL-RUNTIME_initscripts = ""
+
+    PACKAGECONFIG:append_pn-systemd = " resolved networkd"
+
+  general_helpers: |
+    DISTRO ?= "poky"
+    EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+    INHERIT += "rm_work"
+
+    IMAGE_FEATURES += " ssh-server-openssh"
+    IMAGE_INSTALL:append = " \
+          sudo ntp bash minicom nano \
+          python3 python3-git python3-numpy python3-pip \
+          mosquitto libmosquitto1 libmosquittopp1 mosquitto-clients"
+
+    PACKAGE_CLASSES ?= "package_rpm package_deb"
+
+  mender_device_integration: |
+    INHERIT += "mender-full"
+    MENDER_FEATURES_ENABLE:append = "mender-image mender-uboot mender-image-gpt mender-image-sd"
+    MENDER_FEATURES_DISABLE:append = " mender-grub mender-image-uefi"
+
+    ARTIFACTIMG_FSTYPE = "ext4"
+    MENDER_STORAGE_TOTAL_SIZE_MB ?= "7200"
+    MENDER_UBOOT_AUTO_CONFIGURE = "0"
+
+  dynamic: |
+
+    # Mender variables:
+    MENDER_ARTIFACT_NAME = "rtm-radxa-yocto-build-2023-04-18-1111"
