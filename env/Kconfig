@@ -475,7 +475,7 @@ config ENV_OFFSET
 	hex "Environment offset"
 	depends on !ENV_IS_IN_UBI
 	depends on !ENV_IS_NOWHERE
-	default 0x3f8000
+	default 0x800000
 	help
 	  Offset from the start of the device (or partition)
 
